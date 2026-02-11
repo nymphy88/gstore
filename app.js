@@ -103,6 +103,15 @@ async function unpack(inputPath, outputDir) {
         fs.readSync(fd, nameBuf, 0, nameLen, 12);
         const originalName = nameBuf.toString('utf8');
 
+        let outputPath;
+        // If outputDir is an existing directory, join with original name
+        if (fs.existsSync(outputDir) && fs.statSync(outputDir).isDirectory()) {
+            outputPath = path.join(outputDir, originalName);
+        } else {
+            // Otherwise, treat outputDir as the desired full file path
+            outputPath = outputDir;
+        }
+
         const outputPath = path.join(outputDir, originalName);
         const headerSize = 12 + nameLen;
 

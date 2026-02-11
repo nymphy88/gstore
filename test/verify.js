@@ -30,6 +30,11 @@ async function runTest() {
     console.log('Packing...');
     execSync(`node app.js pack ${TEST_FILE} ${DNA_FILE}`);
 
+    // 3. Unpack into Directory
+    console.log('Unpacking into directory...');
+    execSync(`node app.js unpack ${DNA_FILE} ${UNPACKED_DIR}`);
+
+    // 4. Verify Directory Unpack
     // 3. Unpack
     console.log('Unpacking...');
     execSync(`node app.js unpack ${DNA_FILE} ${UNPACKED_DIR}`);
@@ -42,6 +47,19 @@ async function runTest() {
 
     assert.strictEqual(originalContent.length, unpackedContent.length, 'Size mismatch');
     assert.deepStrictEqual(originalContent, unpackedContent, 'Content mismatch');
+    console.log('✅ Bit-perfect restoration (to directory) verified!');
+
+    // 3.1 Unpack into Specific Filename
+    const SPECIFIC_FILE = 'specific_name.bin';
+    console.log('Unpacking into specific filename...');
+    execSync(`node app.js unpack ${DNA_FILE} ${SPECIFIC_FILE}`);
+
+    // 4.1 Verify Specific File Unpack
+    const specificUnpackedContent = fs.readFileSync(SPECIFIC_FILE);
+    assert.strictEqual(originalContent.length, specificUnpackedContent.length, 'Specific file size mismatch');
+    assert.deepStrictEqual(originalContent, specificUnpackedContent, 'Specific file content mismatch');
+    console.log('✅ Bit-perfect restoration (to specific file) verified!');
+    fs.unlinkSync(SPECIFIC_FILE);
     console.log('✅ Bit-perfect restoration verified!');
 
     // 5. Test Jump-to-Read (Read index 1)
