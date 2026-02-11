@@ -1,0 +1,9 @@
+lo2.txt
+node_modules/
+        out/
+        pnpm-lock.yaml
+        temp.png
+        test.dna
+        test2.dna
+        test3.dna
+        test4.dna
