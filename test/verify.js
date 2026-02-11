@@ -35,6 +35,11 @@ async function runTest() {
     execSync(`node app.js unpack ${DNA_FILE} ${UNPACKED_DIR}`);
 
     // 4. Verify Directory Unpack
+    // 3. Unpack
+    console.log('Unpacking...');
+    execSync(`node app.js unpack ${DNA_FILE} ${UNPACKED_DIR}`);
+
+    // 4. Verify
     const unpackedFile = path.join(UNPACKED_DIR, TEST_FILE);
     const unpackedContent = fs.readFileSync(unpackedFile);
 
@@ -55,6 +60,7 @@ async function runTest() {
     assert.deepStrictEqual(originalContent, specificUnpackedContent, 'Specific file content mismatch');
     console.log('✅ Bit-perfect restoration (to specific file) verified!');
     fs.unlinkSync(SPECIFIC_FILE);
+    console.log('✅ Bit-perfect restoration verified!');
 
     // 5. Test Jump-to-Read (Read index 1)
     console.log('Testing Jump-to-Read...');

@@ -112,6 +112,7 @@ async function unpack(inputPath, outputDir) {
             outputPath = outputDir;
         }
 
+        const outputPath = path.join(outputDir, originalName);
         const headerSize = 12 + nameLen;
 
         fs.closeSync(fd);
